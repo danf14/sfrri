@@ -1,7 +1,3 @@
-/**
- * In this file, we create a React component
- * which incorporates components provided by Material-UI.
- */
 import React, {Component} from 'react';
 import RaisedButton from 'material-ui/RaisedButton';
 import Dialog from 'material-ui/Dialog';
@@ -9,13 +5,16 @@ import {deepOrange500} from 'material-ui/styles/colors';
 import FlatButton from 'material-ui/FlatButton';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-
-const styles = {
-  container: {
-    textAlign: 'center',
-    paddingTop: 200,
-  },
-};
+import SFRRIAppBar from './components/SFRRIAppBar';
+import NavBar from './components/NavBar';
+import NavBar1 from './components/NavBar1';
+import Home from './components/Home';
+import FontIcon from 'material-ui/FontIcon';
+import IconButton from 'material-ui/IconButton';
+import NavigationClose from 'material-ui/svg-icons/navigation/close';
+import SFRRIDrawer from './components/Drawer';
+import Footer from './components/Footer';
+import {Link} from 'react-router';
 
 const muiTheme = getMuiTheme({
   palette: {
@@ -23,58 +22,20 @@ const muiTheme = getMuiTheme({
   },
 });
 
-class Main extends Component {
-  constructor(props, context) {
-    super(props, context);
-
-    this.state = {
-      open: false,
-    };
-  }
-
-  handleRequestClose = () => {
-    this.setState({
-      open: false,
-    });
-  }
-
-  handleTouchTap = () => {
-    this.setState({
-      open: true,
-    });
-  }
-
-  render() {
-    const standardActions = (
-      <FlatButton
-        label="Ok"
-        primary={true}
-        onTouchTap={this.handleRequestClose}
-      />
-    );
-
-    return (
-      <MuiThemeProvider muiTheme={muiTheme}>
-        <div style={styles.container}>
-          <Dialog
-            open={this.state.open}
-            title="Super Secret Password"
-            actions={standardActions}
-            onRequestClose={this.handleRequestClose}
-          >
-            1-2-3-4-5
-          </Dialog>
-          <h1>Material-UI</h1>
-          <h2>example project</h2>
-          <RaisedButton
-            label="Super Secret Password"
-            secondary={true}
-            onTouchTap={this.handleTouchTap}
-          />
+export default class Layout extends React.Component {
+	render() {
+		return (
+			<MuiThemeProvider muiTheme={muiTheme}>
+        <div>
+          {/*<SFRRIDrawer />*/}
+          <SFRRIAppBar className="header" />
+          <NavBar1 />
+          <Link to='/'>Home</Link>
+          <Link to='pres'>President's Address</Link>
+          {this.props.children}
+          <Footer />
         </div>
       </MuiThemeProvider>
-    );
-  }
+		);
+	}
 }
-
-export default Main;

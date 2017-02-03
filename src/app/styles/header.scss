@@ -1,0 +1,19 @@
+$headerBgColor:#222;
+
+header{
+	width:100%;
+	height:172px;
+	background-color: $headerBgColor;
+}
+
+@media screen and (min-width:768px) {
+	header{
+		height:172px;
+	}
+}
+
+@media screen and (min-width:1024px) {
+	header{
+		height:280px;
+	}
+}

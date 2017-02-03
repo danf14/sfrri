@@ -3,6 +3,8 @@ const path = require('path');
 const buildPath = path.resolve(__dirname, 'build');
 const nodeModulesPath = path.resolve(__dirname, 'node_modules');
 const TransferWebpackPlugin = require('transfer-webpack-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 const config = {
   entry: [path.join(__dirname, '/src/app/app.js')],
@@ -20,6 +22,7 @@ const config = {
         'NODE_ENV': JSON.stringify('production')
       }
     }),
+    new webpack.optimize.DedupePlugin(),
     // Minify the bundle
     new webpack.optimize.UglifyJsPlugin({
       compress: {
@@ -33,6 +36,13 @@ const config = {
     new TransferWebpackPlugin([
       {from: 'www'},
     ], path.resolve(__dirname, 'src')),
+
+    new HtmlWebpackPlugin({
+      hash: true,
+      filename: 'index.html',
+      template: __dirname + '/src/app/index.html',
+    }),
+    new ExtractTextPlugin("styles.css"),
   ],
   module: {
     loaders: [
@@ -40,6 +50,11 @@ const config = {
         test: /\.js$/, // All .js files
         loaders: ['babel-loader'], // react-hot is like browser sync and babel loads jsx and es6-7
         exclude: [nodeModulesPath],
+      },
+      {
+        test: /\.css$/,
+        include: /node_modules/,
+        loader:  'style-loader!css-loader'
       },
     ],
   },

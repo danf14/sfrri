@@ -3,6 +3,8 @@ const path = require('path');
 const buildPath = path.resolve(__dirname, 'build');
 const nodeModulesPath = path.resolve(__dirname, 'node_modules');
 const TransferWebpackPlugin = require('transfer-webpack-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 const config = {
   // Entry points to the project
@@ -34,6 +36,13 @@ const config = {
     new TransferWebpackPlugin([
       {from: 'www'},
     ], path.resolve(__dirname, 'src')),
+
+    new HtmlWebpackPlugin({
+      hash: true,
+      filename: 'index.html',
+      template: __dirname + '/src/app/index.html',
+    }),
+    new ExtractTextPlugin("styles.css"),
   ],
   module: {
     loaders: [
@@ -41,6 +50,11 @@ const config = {
         test: /\.js$/, // All .js files
         loaders: ['babel-loader'],
         exclude: [nodeModulesPath],
+      },
+      {
+        test: /\.css$/,
+        //include: /node_modules/,
+        loader: 'style-loader!css-loader'
       },
     ],
   },
